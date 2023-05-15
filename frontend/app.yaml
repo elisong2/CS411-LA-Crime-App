@@ -1,0 +1,11 @@
+runtime: python38
+
+instance_class: F1
+
+env_variables:
+  MYSQL_USER: 'root'
+  MYSQL_PASSWORD: ''
+  MYSQL_DB: 'crime_data'
+  MYSQL_HOST: 23.236.61.71
+
+

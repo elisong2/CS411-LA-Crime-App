@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+
+<script>
+
+function deleten(data) {
+        console.log(data)
+        $.ajax({
+            type: 'POST',
+            url: '/delete/' + parseInt(data),
+            success: function (res) {
+                console.log(res.response)
+                location.reload();
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });
+
+      }
+</script>
+
+<html>
+    <head>
+        <title>Crime Data in LA</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+
+    </head>
+
+    <body>
+
+    <main role="main" class="container extra-bottom">
+      <h1 class="mt-5">Crime Data in LA</h1>
+    </main>
+    
+
+    <div class="container">    
+        
+        <!-- Button trigger modal -->
+        <div class="float-container">
+
+            <div style="text-align: left;" class="float-child">
+            <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#add-modal" data-source="New Case">Add Event</button>
+            <button type="button" class="btn btn-outline-info btn-sm" id = "userinserted">Inserted</button>
+            <button type="button" class="btn btn-outline-info btn-sm" id = "ages">Ages</button>
+            <button type="button" class="btn btn-outline-info btn-sm" id = "weapons">Weapons</button>
+            <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#search-modal">
+                <i class="fas fa-search"></i>
+            </button>
+            </div>
+            <div style="text-align: right;" class="float-child">
+            <button type="button" class="btn btn-outline-info btn-sm", id="advanced2">
+                <i class="fas fa-bolt"></i>
+            </button>
+            <button type="button" class="btn btn-outline-info btn-sm" id="advanced1">
+                <i class="fas fa-fist-raised"></i>
+            </button>
+            </div>
+        </div>
+
+        
+        <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Label">Edit this case</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Case #</span>
+                    <input type="text" class="form-control1" id="casenum-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Date</span>
+                    <input type="text" class="form-control2" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="time-form">Time</span>
+                    <input type="text" class="form-control3" id="time-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="Location-form">Location</span>
+                    <input type="text" class="form-control4" id="Location-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="submit-task-edit" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="add-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Label">Edit this case</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Case #</span>
+                        <input type="text" class="form-control1" id="casenum-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Date of Report</span>
+                        <input type="text" class="form-control2" id="casenum-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Date of Event</span>
+                        <input type="text" class="form-control3" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="time-form">Time</span>
+                        <input type="text" class="form-control4" id="time-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="Location-form">Location</span>
+                        <input type="text" class="form-control5" id="Location-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Latitude</span>
+                        <input type="text" class="form-control6" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Longitude</span>
+                        <input type="text" class="form-control7" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Crime Code</span>
+                        <input type="text" class="form-control8" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Weapon Code</span>
+                        <input type="text" class="form-control9" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Area Code</span>
+                        <input type="text" class="form-control10" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Premise Code</span>
+                        <input type="text" class="form-control11" id="date-form" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="submit-task-add" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+
+            <div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+            <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="Label">Search Cases by info</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+            
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <select name="search options" id="searchopts">
+                                    <option value="DR_NO">Case #</option>
+                                    <option value="Date_of_Occurrence">Event Date</option>
+                                    <option value="Time_of_Occurrence">Time</option>
+                                    <option value="Location">Location</option>
+                                </select>
+                                <input type="text" class="form-control1" id="Selected" aria-label="task-name" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="submit-search" type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+            </div>
+            </div>
+
+    </div>
+
+
+    <!--Todo Table-->
+    <div class="container table-responsive">          
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Case #</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for key,value in items.iterrows() %}
+        <tr>
+            <td value="{{ value['DR_NO'] }}">{{ value['DR_NO'] }}</td>
+            <td value="{{ value['Date_of_Occurrence'] }}">{{ value['Date_of_Occurrence'] }}</td>
+            <td value="{{ value['Time_of_Occurrence'] }}">{{ value['Time_of_Occurrence'] }}</td>
+            <td value="{{ value['Location'] }}">{{ value['Location'] }}</td>
+            <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{key}}" data-content="{{[value['DR_NO'],value['Date_of_Occurrence'],value['Time_of_Occurrence'],value['Location']]}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+            <td><input value="{{ value['DR_NO'] }}" class="btn btn-outline-secondary btn-sm remove" type="button" onClick="deleten(this.value)"></td>
+
+        </tr>
+        
+
+        {% endfor %}
+
+
+
+       
+        </tbody>
+    </table>
+    </div>
+
+
+
+    <footer class="footer">
+      <div class="container">
+            <p class="text-muted"><small>App developed for by ezcs</small></p>
+      </div>
+    </footer>
+  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+</html>
